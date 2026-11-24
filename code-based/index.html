@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Campus Room Availability Checker — code-based</title>
+  <style>
+    :root { --ok: #1b7a3d; --bad: #b42318; --warn: #9a6700; --line: #d0d7de; --muted: #57606a; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #1f2328; background: #f6f8fa; }
+    main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { font-size: 1.4rem; margin: 0 0 4px; }
+    p.sub { color: var(--muted); margin: 0 0 20px; }
+    section { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+    h2 { font-size: 1rem; margin: 0 0 12px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    label { display: flex; flex-direction: column; gap: 4px; font-size: .9rem; font-weight: 600; }
+    input[type=time], input[type=text] { font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; }
+    .check { flex-direction: row; align-items: center; gap: 8px; }
+    button { font: inherit; font-weight: 600; padding: 10px 16px; border-radius: 6px; border: 0; background: #0969da; color: #fff; cursor: pointer; }
+    button.secondary { background: #fff; color: #0969da; border: 1px solid #0969da; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    #result { margin-top: 12px; padding: 12px; border-radius: 6px; border: 1px solid var(--line); min-height: 48px; }
+    #result.ok { border-color: var(--ok); color: var(--ok); background: #eef8f1; }
+    #result.bad { border-color: var(--bad); color: var(--bad); background: #fdf0ef; }
+    #result.warn { border-color: var(--warn); color: var(--warn); background: #fff8e6; }
+    .code { font-family: ui-monospace, Consolas, monospace; font-size: .85rem; color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    td.pass { color: var(--ok); font-weight: 700; } td.fail { color: var(--bad); font-weight: 700; }
+    .scroll { overflow-x: auto; }
+    footer { color: var(--muted); font-size: .8rem; text-align: center; }
+    @media (max-width: 520px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 1.2rem; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Smart Campus Room Availability Checker</h1>
+  <p class="sub">Code-based version (HTML + JavaScript). <span id="room-name"></span>. Fictional data only.</p>
+
+  <section aria-labelledby="form-title">
+    <h2 id="form-title">Check a time slot</h2>
+    <form id="form" novalidate>
+      <div class="grid">
+        <label>Current time (supplied, not the real clock)
+          <input id="currentTime" type="time" value="08:00" required>
+        </label>
+        <label>Start time
+          <input id="startTime" type="time" value="10:30" required>
+        </label>
+        <label>Duration (minutes, 1–120)
+          <input id="duration" type="text" inputmode="numeric" value="60" required>
+        </label>
+        <label class="check">
+          <input id="blocked" type="checkbox"> Room is blocked
+        </label>
+      </div>
+      <div class="actions">
+        <button type="submit">Check availability</button>
+      </div>
+    </form>
+    <div id="result" role="status" aria-live="polite">Enter a time slot and press Check availability.</div>
+  </section>
+
+  <section aria-labelledby="bookings-title">
+    <h2 id="bookings-title">Existing bookings (read-only)</h2>
+    <div class="scroll"><table><thead><tr><th>ID</th><th>Start</th><th>End</th></tr></thead><tbody id="bookings"></tbody></table></div>
+  </section>
+
+  <section aria-labelledby="tests-title">
+    <h2 id="tests-title">Acceptance tests T1–T8</h2>
+    <button id="run-tests" class="secondary" type="button">Run T1–T8</button>
+    <div class="scroll"><table><thead><tr><th>ID</th><th>Case</th><th>Expected</th><th>Observed</th><th>Result</th></tr></thead><tbody id="tests"></tbody></table></div>
+    <p id="summary" class="code"></p>
+  </section>
+
+  <footer>Fictional sample data · no login, no database · bookings are never changed</footer>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>

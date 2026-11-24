@@ -1,0 +1,10 @@
+{
+  "name": "smart-campus-compare",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Smart Campus availability checker: code-based vs low-code comparison",
+  "type": "module",
+  "scripts": {
+    "test": "node --test code-based/rules.test.mjs"
+  }
+}
